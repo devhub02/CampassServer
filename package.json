@@ -2,6 +2,11 @@
   "name": "campass-server",
   "version": "1.0.0",
   "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "colors": "^1.4.0",
@@ -10,7 +15,9 @@
     "express": "^5.2.1",
     "mongodb": "^7.5.0",
     "mongoose": "^9.9.1",
-    "morgan": "^1.11.0",
-    "y": "^0.3.2"
+    "morgan": "^1.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
