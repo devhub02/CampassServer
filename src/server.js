@@ -1,12 +1,14 @@
-require('dotenv').config();
 const colors = require('colors');
-const app = require('./app');
+const app = require('./App');
 const connectDB = require('./config/db');
+const config = require('./config');
 
-connectDB();
+const startServer = async () => {
+  await connectDB();
 
-const PORT = process.env.PORT || 5000;
+  app.listen(config.port, () => {
+    console.log(`Server running on port ${config.port}`.yellow.bold);
+  });
+};
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`.yellow.bold);
-});
+startServer();

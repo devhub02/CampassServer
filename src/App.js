@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const routes = require('./routes');
+const config = require('./config');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || true }));
+app.use(cors({ origin: config.clientOrigin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
