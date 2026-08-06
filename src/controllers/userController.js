@@ -1,5 +1,7 @@
-const asyncHandler = require('../middleware/asyncHandler');
-const User = require('../models/User');
+const asyncHandler = require("../middleware/asyncHandler");
+const User = require("../models/User");
+const mongoose = require("mongoose");
+const authHelper = require("../passwords/authHelper");
 
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
@@ -11,20 +13,26 @@ const createUser = asyncHandler(async (req, res) => {
 
   if (!name || !email || !password) {
     res.status(400);
-    throw new Error('Please provide name, email and password');
+    throw new Error("Please provide name, email and password");
   }
 
-  const user = await User.create({ name, email, password });
-  res.status(201).json({ success: true, data: user });
+  const hashedPassword = await authHelper.hashPassword(password);
+
+  const user = await User.create({ name, email, password: hashedPassword });
+  res.status(201).json({ success: true, data: user }).save();
 });
 
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) {
     res.status(404);
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
-  res.json({ success: true, data: user });
+  res.json({
+    success: true,
+    message: "User retrieved successfully",
+    data: user,
+  });
 });
 
 module.exports = { getUsers, createUser, getUser };
