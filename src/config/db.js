@@ -3,8 +3,11 @@ const colors = require("colors");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    const conn = await mongoose.connect(config.mongodbUri, {
+      serverSelectionTimeoutMS: 10000,
+    });
     console.log(`MongoDB connected: ${conn.connection.host}`.cyan.underline);
+    return conn;
   } catch (err) {
     console.error(`Error connecting to MongoDB: ${err.message}`.red);
     process.exit(1);
